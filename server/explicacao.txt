@@ -1,5 +1,3 @@
-# Trabalho 2 PSPD
-
 
 # Trabalho 2 PSPD
 
@@ -24,14 +22,14 @@ O serviço expõe uma RPC: `SendWord(WordRequest) -> WordReply`.
 ## Estrutura de Arquivos
 
 ```
-server
+pythonTeste
 ├── dictionary.proto
 ├── dictionary_pb2.py
 ├── dictionary_pb2_grpc.py
 ├── dictionary_server.py    (Servidor Python)
 ├── palavras.json           (Armazena palavras persistentes)
 
-client
+JSTeste
 ├── node_modules
 ├── dictionary_client.js    (Cliente JavaScript para comunicação gRPC)
 ├── dictionary.proto        (Mesmo `.proto` usado pelo servidor Python)
@@ -130,32 +128,22 @@ Este servidor fornece rotas HTTP (`/addWord` e `/printWords`) para o front-end s
 
 ### 5.1 Iniciar o servidor Python
 
-1. Vá para a pasta `server`.
-2. Crie a venv para conseguir instalar o grpc
-```
-python3 -m venv .venv
-source .venv/bin/activate
-```
-3. Instale o grpc
-```
-pip install grpcio grpcio-tools
-```
-4. Certifique-se de que os arquivos `dictionary_pb2.py` e `dictionary_pb2_grpc.py` foram gerados.
-5. Rode o servidor Python:
+1. Certifique-se de que os arquivos `dictionary_pb2.py` e `dictionary_pb2_grpc.py` foram gerados.
+2. Rode o servidor Python:
    ```bash
    python dictionary_server.py
    ```
 
 ### 5.2 Iniciar o servidor Node.js
 
-1. Vá para a pasta `client`.
+1. Vá para a pasta `JSTeste`.
 2. Instale as dependências do Node.js:
    ```bash
    yarn install
    ```
 3. Inicie o servidor Express:
    ```bash
-   node web_server.js
+   yarn start
    ```
 
 ### 5.3 Acessar o Front-End
@@ -186,7 +174,7 @@ http://localhost:3000
    ```
 2. Inicie o servidor Node.js:
    ```bash
-   node web_server.js
+   yarn start
    ```
 3. Acesse no navegador:  
    ```

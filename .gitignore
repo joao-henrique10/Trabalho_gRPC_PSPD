@@ -1,0 +1,25 @@
+# Ignorar node_modules
+node_modules/
+
+# Ignorar virtual environments Python
+.venv/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar lock files específicos (opcional, caso use apenas Yarn ou npm)
+package-lock.json
+yarn.lock
+
+# Ignorar arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar Python cache
+__pycache__/
+*.pyc
+
+# Ignorar arquivos de configuração de IDE (ex: VSCode, JetBrains)
+.vscode/
+.idea/
+

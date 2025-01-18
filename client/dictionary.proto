@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package dictionary;
+
+// Uma única RPC "SendWord"
+service Dictionary {
+  rpc SendWord(WordRequest) returns (WordReply);
+}
+
+// Mensagens usadas
+message WordRequest {
+  string word = 1;
+}
+
+// Se a palavra foi "IMPRIMIR", retornamos a lista inteira de (word, count).
+// Caso contrário, apenas uma mensagem de confirmação.
+message WordReply {
+  bool success = 1;         // se a operação deu certo
+  string message = 2;       // mensagem de retorno
+  repeated WordCount words = 3; // lista completa, se for "IMPRIMIR"
+}
+
+message WordCount {
+  string word = 1;
+  int32 count = 2;
+}
