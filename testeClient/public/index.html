@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <title>Cliente Dicionário gRPC</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="container">
     <h1>Dicionário gRPC - Front-end</h1>
-    
+
     <div class="buttons">
       <button id="btnAdd">Adicionar uma Palavra</button>
       <button id="btnPrint">Imprimir (Listar Todas)</button>
@@ -67,29 +69,27 @@
       hideAllSections();
       printSection.classList.remove('hidden');
 
-      // Faz GET /printWords para chamar "IMPRIMIR"
       try {
+        // Faz GET /printWords para chamar "IMPRIMIR"
         const res = await fetch('/printWords');
         const data = await res.json();
-        // data.words => array de { word, count }
-        
-        // Limpar tabela
-        printTableBody.innerHTML = '';
-        
+
+        // Processa e insere os dados na tabela
         if (data.words) {
-          data.words.forEach((wc) => {
+          printTableBody.innerHTML = ''; // Limpa a tabela antes de adicionar os novos valores
+          for (const [word, count] of Object.entries(data.words)) {
             const tr = document.createElement('tr');
             const tdWord = document.createElement('td');
             const tdCount = document.createElement('td');
-            tdWord.textContent = wc.word;
-            tdCount.textContent = wc.count;
+            tdWord.textContent = word; // A chave do mapa
+            tdCount.textContent = count; // O valor do mapa
             tr.appendChild(tdWord);
             tr.appendChild(tdCount);
             printTableBody.appendChild(tr);
-          });
+          }
         }
       } catch (err) {
-        console.error(err);
+        console.error('Erro ao imprimir:', err);
       }
     });
 
@@ -101,8 +101,8 @@
         return;
       }
 
-      // Faz POST /addWord
       try {
+        // Faz POST /addWord
         const res = await fetch('/addWord', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -122,4 +122,5 @@
     });
   </script>
 </body>
+
 </html>

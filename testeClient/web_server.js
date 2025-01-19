@@ -1,11 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { sendWord, getDictionary } = require('./dictionary_client'); // Atualize os métodos se necessário
+const path = require('path'); // Necessário para servir arquivos estáticos
+const { sendWord, getDictionary } = require('./dictionary_client');
 
 const app = express();
 const PORT = 3000;
 
+// Configuração do body-parser para lidar com JSON
 app.use(bodyParser.json());
+
+// Servir arquivos estáticos da pasta "public"
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Rota para adicionar uma palavra
 app.post('/addWord', async (req, res) => {
@@ -38,6 +43,12 @@ app.get('/printWords', async (req, res) => {
   }
 });
 
+// Rota para servir o arquivo HTML principal (index.html)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Inicia o servidor na porta configurada
 app.listen(PORT, () => {
   console.log(`Servidor web rodando em http://localhost:${PORT}`);
 });
