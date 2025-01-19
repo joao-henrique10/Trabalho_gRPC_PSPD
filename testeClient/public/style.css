@@ -1,0 +1,86 @@
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f3f3f3;
+  }
+  
+  .container {
+    width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+  
+  h1, h2 {
+    margin-top: 0;
+    text-align: center;
+  }
+  
+  .buttons {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  button {
+    padding: 10px 15px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background: #007BFF;
+    color: #fff;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #addForm {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  #addForm input {
+    padding: 8px;
+    width: 200px;
+    font-size: 14px;
+  }
+  
+  #addForm button {
+    margin-left: 10px;
+    background: #28a745;
+  }
+  
+  #addResult {
+    margin-top: 10px;
+    color: #333;
+  }
+  
+  #printSection {
+    margin-top: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  thead {
+    background: #007BFF;
+    color: #fff;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+  

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cliente Dicionário gRPC</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Dicionário gRPC - Front-end</h1>
+    
+    <div class="buttons">
+      <button id="btnAdd">Adicionar uma Palavra</button>
+      <button id="btnPrint">Imprimir (Listar Todas)</button>
+    </div>
+
+    <!-- Formulário de adicionar (apenas aparece quando clica no botão) -->
+    <div id="addForm" class="hidden">
+      <h2>Adicionar Palavra</h2>
+      <input type="text" id="wordInput" placeholder="Digite a palavra..." />
+      <button id="btnSubmitWord">Enviar</button>
+      <div id="addResult"></div>
+    </div>
+
+    <!-- Tabela de resultado (só aparece quando é para listar) -->
+    <div id="printSection" class="hidden">
+      <h2>Lista de Palavras</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Quantidade</th>
+          </tr>
+        </thead>
+        <tbody id="printTableBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const btnAdd = document.getElementById('btnAdd');
+    const btnPrint = document.getElementById('btnPrint');
+    const addForm = document.getElementById('addForm');
+    const printSection = document.getElementById('printSection');
+
+    const wordInput = document.getElementById('wordInput');
+    const btnSubmitWord = document.getElementById('btnSubmitWord');
+    const addResult = document.getElementById('addResult');
+    const printTableBody = document.getElementById('printTableBody');
+
+    // Função para esconder todas as seções
+    function hideAllSections() {
+      addForm.classList.add('hidden');
+      printSection.classList.add('hidden');
+      addResult.textContent = '';
+    }
+
+    // Quando clica em "Adicionar"
+    btnAdd.addEventListener('click', () => {
+      hideAllSections();
+      addForm.classList.remove('hidden');
+    });
+
+    // Quando clica em "Imprimir"
+    btnPrint.addEventListener('click', async () => {
+      hideAllSections();
+      printSection.classList.remove('hidden');
+
+      // Faz GET /printWords para chamar "IMPRIMIR"
+      try {
+        const res = await fetch('/printWords');
+        const data = await res.json();
+        // data.words => array de { word, count }
+        
+        // Limpar tabela
+        printTableBody.innerHTML = '';
+        
+        if (data.words) {
+          data.words.forEach((wc) => {
+            const tr = document.createElement('tr');
+            const tdWord = document.createElement('td');
+            const tdCount = document.createElement('td');
+            tdWord.textContent = wc.word;
+            tdCount.textContent = wc.count;
+            tr.appendChild(tdWord);
+            tr.appendChild(tdCount);
+            printTableBody.appendChild(tr);
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
+
+    // Quando clica no botão "Enviar" do formulário de adicionar
+    btnSubmitWord.addEventListener('click', async () => {
+      const word = wordInput.value.trim();
+      if (!word) {
+        addResult.textContent = 'Por favor, digite uma palavra.';
+        return;
+      }
+
+      // Faz POST /addWord
+      try {
+        const res = await fetch('/addWord', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ word })
+        });
+        const data = await res.json();
+        if (data.error) {
+          addResult.textContent = 'Erro ao adicionar: ' + data.error;
+        } else {
+          // Exibe a mensagem que veio do gRPC (data.message)
+          addResult.textContent = data.message;
+          wordInput.value = ''; // limpa o campo
+        }
+      } catch (err) {
+        addResult.textContent = 'Erro na requisição: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
